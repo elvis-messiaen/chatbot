@@ -1,0 +1,30 @@
+<app-header></app-header>
+
+<div class="flex flex-col max-w-2xl mx-auto p-6 space-y-4 bg-gray-100 rounded-lg shadow-lg">
+  <div class="flex flex-col space-y-4 overflow-y-auto max-h-96 p-4 bg-white rounded-lg border border-gray-300">
+    <div *ngFor="let message of listMessage; index as i">
+      <div *ngIf="listMessage[i].id == 1" class="flex flex-col items-end">
+        <span class="text-xs text-gray-500">{{ message.date | date: 'dd/MMM/yyyy HH:mm:ss' }}</span>
+        <p class="bg-blue-500 text-white rounded-lg p-3 max-w-sm"> <strong>USER :</strong> {{ message.message }}</p>
+      </div>
+      <div *ngIf="listMessage[i].id == 0" class="flex flex-col items-start">
+        <span class="text-xs text-gray-500">{{ message.date | date: 'dd/MMM/yyyy HH:mm:ss' }}</span>
+        <p class="bg-green-500 text-white rounded-lg p-3 max-w-sm"> <strong>ADMIN :</strong> {{ message.message }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex space-x-4 mt-4">
+    <input
+      type="text" #content
+      class="flex-grow p-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-300"
+      placeholder="Entrez votre message..."
+    >
+    <button
+      class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all"
+      (click)="sendMessage(content.value)"
+    >
+      Envoyer
+    </button>
+  </div>
+</div>
