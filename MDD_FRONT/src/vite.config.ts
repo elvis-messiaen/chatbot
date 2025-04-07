@@ -2,9 +2,17 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   define: {
-    global: 'window',
+    global: 'globalThis',
   },
   optimizeDeps: {
-    include: ['sockjs-client'],
+    include: ['@stomp/stompjs'],
+  },
+  server: {
+    proxy: {
+      '/websocket': {
+        target: 'http://localhost:8080',
+        ws: true,
+      },
+    },
   },
 });

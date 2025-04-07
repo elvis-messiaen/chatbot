@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -13,35 +13,36 @@ import {HeaderComponent} from '../../layout/header/header.component';
   imports: [CommonModule, FormsModule, HeaderComponent],
 })
 export class AdminMessageComponent implements OnInit, OnDestroy {
-  listMessage: Message [] = []
+  listMessage: Message[] = [];
   messageSubscription!: Subscription;
+  @ViewChild("content") content: ElementRef<HTMLInputElement> | undefined;
 
-  @ViewChild("content") content: ElementRef<HTMLInputElement> | undefined
+  constructor(private chatService: ChatService) {}
 
-  constructor(private chatService: ChatService) {
-  }
-  ngOnInit() : void {
-    this.listenMessage()
+  ngOnInit(): void {
+    this.messageSubscription = this.chatService.getCurentContent()
+      .subscribe((messages: Message[]) => {
+        this.listMessage = [...messages];
+      });
   }
 
   sendMessage(content: string): void {
-    let message : Message = { id: 0, message: content, date : new Date() }
-    this.content!.nativeElement.value = ""
-    this.chatService.send(message)
+    if (content.trim()) {
+      const message: Message = {
+        id: 0,
+        message: content,
+        date: new Date()
+      };
+      this.chatService.send(message);
+      if (this.content) {
+        this.content.nativeElement.value = "";
+      }
+    }
   }
 
-  listenMessage(): void {
-    this.messageSubscription = this.chatService.getCurentContent().subscribe((messages: Array<Message>) => {
-      this.listMessage = messages.map((message: Message) => ({
-        ...message
-      }))
-    })
-    this.chatService.listen()
-  }
-
-  ngOnDestroy() {
-    if(this.messageSubscription) {
-      this.messageSubscription.unsubscribe()
+  ngOnDestroy(): void {
+    if (this.messageSubscription) {
+      this.messageSubscription.unsubscribe();
     }
   }
 }

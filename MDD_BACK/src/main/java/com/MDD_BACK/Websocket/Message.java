@@ -7,22 +7,26 @@ public class Message {
     private String message;
     private Date date;
 
-    public void setId (int i) {
-        this.id = i;
-    }
     public int getId() {
-        return this.id;
+        return id;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getMessage() {
-        return this.message;
-    }
-    public Date getDate() {
-        return this.date;
+        return message;
     }
 
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public Date getDate() {
+        return date;
+    }
+
     public void setDate(Date date) {
         this.date = date;
     }
