@@ -23,7 +23,7 @@ public class MessageStorageService {
 
     public List<Message> getStoredMessages(String userId) {
         List<Message> messages = messageStore.getOrDefault(userId, new ArrayList<>());
-        messageStore.remove(userId); // Effacer après récupération
+        messageStore.remove(userId);
         return messages;
     }
 }

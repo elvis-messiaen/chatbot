@@ -1,0 +1,44 @@
+<div class="container mx-auto mt-10 p-4 text-center">
+  <h1 class="text-2xl mb-5">Se connecter</h1>
+  <div *ngIf="loginError" class="text-red-500 font-bold mb-4">
+    {{ loginError }}
+  </div>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="flex flex-col items-center space-y-4">
+      <div class="w-4/5 md:w-1/5">
+        <label for="username" class="block text-sm font-medium text-left">Nom d'utilisateur</label>
+        <input
+          id="username"
+          type="text"
+          formControlName="username"
+          class="mt-1 block w-full border border-gray-300 rounded-md p-2"
+        />
+        <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" class="text-red-500 text-sm mt-1">
+          <p *ngIf="loginForm.get('username')?.hasError('required')">Ce champ est obligatoire.</p>
+        </div>
+      </div>
+
+      <div class="w-4/5 md:w-1/5">
+        <label for="password" class="block text-sm font-medium text-left">Mot de passe</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          class="mt-1 block w-full border border-gray-300 rounded-md p-2"
+        />
+        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-red-500 text-sm mt-1">
+          <p *ngIf="loginForm.get('password')?.hasError('required')">Le mot de passe est obligatoire.</p>
+        </div>
+      </div>
+
+      <button
+        class="w-2/5 md:w-1/5 bg-purple-500 text-white font-bold py-2 rounded"
+        type="submit"
+        [disabled]="loginForm.invalid"
+      >
+        Se connecter
+      </button>
+    </div>
+  </form>
+</div>

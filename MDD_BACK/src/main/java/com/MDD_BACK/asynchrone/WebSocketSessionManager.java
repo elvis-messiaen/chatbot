@@ -37,7 +37,6 @@ public class WebSocketSessionManager {
             messageJson = objectMapper.writeValueAsString(message);
             logger.info("Broadcasting message: " + messageJson);
 
-            // Envoyer à toutes les sessions actives
             sessions.forEach((userId, session) -> {
                 if (session.isOpen()) {
                     try {
